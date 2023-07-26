@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthApiController extends Controller
 {
@@ -13,14 +14,24 @@ class AuthApiController extends Controller
         $request->validate([
             "name"=>"required|min:3",
             "email"=>"required|unique:users",
-            "password"=>"required|min:8|confirmed"
+            "password"=>"required|min:8|confirmed",
+            "photo"=>"nullable|file|mimes:png,jpeg,jpg|max:1024"
         ]);
 
-        $user = User::create([
-            "name"=>$request->name,
-            "email"=>$request->email,
-            "password"=>Hash::make($request->password)
-        ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+
+        if($request->file("photo")){
+
+            $newName = uniqid()."_User.".$request->photo->extension();
+            $request->photo->store("storage/$newName");
+            Storage::delete("public/".$user->photo);
+            $user->photo = $newName;
+        }
+
+        $user->save();
 
         $token = $user->createToken("phone")->plainTextToken;
 

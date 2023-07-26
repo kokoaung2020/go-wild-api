@@ -4,9 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthApiController;
 use App\Http\Controllers\NewsApiController;
+use App\Http\Controllers\UserApiController;
 use App\Http\Controllers\RatingApiController;
+use App\Http\Controllers\ContactApiController;
 use App\Http\Controllers\TeamateApiController;
 use App\Http\Controllers\CarouselApiController;
+use App\Http\Controllers\FavouriteApiController;
 use App\Http\Controllers\NewsreplyApiController;
 use App\Http\Controllers\DestinationApiController;
 use App\Http\Controllers\NewscommentApiController;
@@ -49,6 +52,9 @@ Route::prefix("v1")->group(function() {
         Route::apiResource("newsreply",NewsreplyApiController::class);
         Route::apiResource("teamate",TeamateApiController::class);
         Route::apiResource("destination",DestinationApiController::class);
+        Route::apiResource("contact",ContactApiController::class);
+        Route::apiResource("user",UserApiController::class);
+        Route::apiResource("favourite",FavouriteApiController::class);
     });
 
 });

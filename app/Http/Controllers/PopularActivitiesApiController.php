@@ -69,7 +69,7 @@ class PopularActivitiesApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return response()->json(["message"=>"hello"]);
+
         $user = User::find(Auth::id());
 
         if($user->role !== "admin"){
@@ -104,8 +104,8 @@ class PopularActivitiesApiController extends Controller
         if($request->file("photo")){
 
             $newName = uniqid()."_carousel.".$request->photo->extension();
-            $request->photo->store("storage/$newName");
-            Storage::delete("public/".$destination->photo);
+            $request->photo->storeAs("public",$newName);
+            Storage::delete("public/".$popularActivities->photo);
             $popularActivities->photo = $newName;
         }
 

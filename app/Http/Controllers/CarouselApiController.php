@@ -117,8 +117,8 @@ class CarouselApiController extends Controller
         if($request->file("photo")){
 
             $newName = uniqid()."_carousel.".$request->photo->extension();
-            Storage::delete("public/".$destination->photo);
-            $request->photo->store("storage/$newName");
+            Storage::delete("public/".$carousel->photo);
+            $request->photo->storeAs("public",$newName);
             $carousel->photo = $newName;
         }
 

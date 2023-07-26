@@ -110,7 +110,7 @@ class FeaturedToursApiController extends Controller
         if($request->file("photo")){
 
             $newName = uniqid()."_FeaturedTours.".$request->photo->extension();
-            $request->photo->store("storage/$newName");
+            $request->photo->storeAs("public",$newName);
             $featuredTours->photo = $newName;
         }
 
