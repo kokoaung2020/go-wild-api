@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FeaturedTours;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\FeaturedToursResource;
 
 class FeaturedToursApiController extends Controller
 {
@@ -16,7 +17,7 @@ class FeaturedToursApiController extends Controller
     public function index()
     {
         $featuredTours = FeaturedTours::all();
-        return $featuredTours;
+        return FeaturedToursResource::collection($featuredTours);
     }
 
     /**
@@ -64,7 +65,7 @@ class FeaturedToursApiController extends Controller
     public function show(string $id)
     {
         $featuredTours = FeaturedTours::find($id);
-        return $featuredTours;
+        return new FeaturedToursResource($featuredTours);
     }
 
     /**
@@ -117,7 +118,8 @@ class FeaturedToursApiController extends Controller
         $featuredTours->update();
 
         return response()->json([
-            "message"=>"updated"
+            "message"=>"updated",
+            "FeaturedTours"=>new FeaturedToursResource($featuredTours)
         ],200);
     }
 

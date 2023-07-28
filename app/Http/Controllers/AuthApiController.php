@@ -15,7 +15,7 @@ class AuthApiController extends Controller
             "name"=>"required|min:3",
             "email"=>"required|unique:users",
             "password"=>"required|min:8|confirmed",
-            "photo"=>"nullable|file|mimes:png,jpeg,jpg|max:1024"
+            "photo"=>"required|file|mimes:png,jpeg,jpg|max:1024"
         ]);
 
         $user = new User();

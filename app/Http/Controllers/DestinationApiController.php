@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\DestinationResource;
 
 class DestinationApiController extends Controller
 {
@@ -16,7 +17,7 @@ class DestinationApiController extends Controller
     public function index()
     {
         $destination = Destination::all();
-        return $destination;
+        return DestinationResource::collection($destination);
     }
 
     /**
@@ -51,7 +52,7 @@ class DestinationApiController extends Controller
     public function show(string $id)
     {
         $destination = Destination::find($id);
-        return $destination;
+        return new DestinationResource($destination);
     }
 
     /**
@@ -87,7 +88,7 @@ class DestinationApiController extends Controller
 
         return response()->json([
             "message"=>"updated",
-            "destination"=>$destination
+            "destination"=>new DestinationResource($destination)
         ]);
     }
 

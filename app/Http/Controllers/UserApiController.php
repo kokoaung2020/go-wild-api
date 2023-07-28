@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 
 class UserApiController extends Controller
@@ -20,7 +21,7 @@ class UserApiController extends Controller
         }
 
         $user = User::all();
-        return $user;
+        return UserResource::collection($user);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Carousel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\CarouselResource;
 
 class CarouselApiController extends Controller
 {
@@ -16,7 +17,7 @@ class CarouselApiController extends Controller
     public function index()
     {
         $carousels = Carousel::all();
-        return $carousels;
+        return CarouselResource::collection($carousels);
     }
 
     /**
@@ -65,7 +66,7 @@ class CarouselApiController extends Controller
     public function show(string $id)
     {
         $carousel = Carousel::find($id);
-        return $carousel;
+        return new CarouselResource($carousel);
     }
 
     /**
@@ -125,7 +126,8 @@ class CarouselApiController extends Controller
         $carousel->update();
 
         return response()->json([
-            "message"=>"updated"
+            "message"=>"updated",
+            "carousel"=>new CarouselResource($carousel)
         ],200);
     }
 

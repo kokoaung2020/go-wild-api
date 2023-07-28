@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PopularActivities;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\PopularActivitiesResource;
 
 class PopularActivitiesApiController extends Controller
 {
@@ -18,7 +19,7 @@ class PopularActivitiesApiController extends Controller
 
         $popularActivities = PopularActivities::all();
 
-        return $popularActivities;
+        return PopularActivitiesResource::collection($popularActivities);
     }
 
     /**
@@ -60,8 +61,8 @@ class PopularActivitiesApiController extends Controller
      */
     public function show(string $id)
     {
-        $carousel = PopularActivities::find($id);
-        return $carousel;
+        $popularActivities = PopularActivities::find($id);
+        return new PopularActivitiesResource($popularActivities);
     }
 
     /**
@@ -112,7 +113,8 @@ class PopularActivitiesApiController extends Controller
         $popularActivities->update();
 
         return response()->json([
-            "message"=>"updated"
+            "message"=>"updated",
+            "PopularActivities"=>new PopularActivitiesResource($popularActivities)
         ],200);
     }
 

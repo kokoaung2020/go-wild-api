@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Teamate;
 use Illuminate\Http\Request;
+use App\Http\Resources\TeamateResource;
 
 class TeamateApiController extends Controller
 {
@@ -13,7 +14,7 @@ class TeamateApiController extends Controller
     public function index()
     {
         $teamate = Teamate::all();
-        return $teamate;
+        return TeamateResource::collection($teamate);
     }
 
     /**
